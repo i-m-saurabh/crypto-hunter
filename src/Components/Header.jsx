@@ -35,7 +35,7 @@ const Header = () => {
                     <Toolbar>
                         <CryptoHunterContainer 
                             onClick={()=> navigate('/')}
-                            variant='h5' 
+                            variant='h6' 
                         >
                             Crypto Hunter
                         </CryptoHunterContainer>
