@@ -10,21 +10,21 @@ const Header = () => {
 
     const CryptoHunterContainer = styled(Typography, {
         shouldForwardProp: (prop) => true,
-      })(({ theme }) => ({
+        })(({ theme }) => ({
         flex: 1,
         color: 'gold',
         fontFamily: 'Montserrat',
         fontWeight: 'bold',
         cursor: 'pointer',
-      }));
+    }));
     
-      const darkTheme = createTheme({
-      palette: {
-        primary:{
-          main: "#fff",
-        },
-        mode: "dark",
-      }
+    const darkTheme = createTheme({
+        palette: {
+            primary:{
+                main: "#fff",
+            },
+            mode: "dark",
+        }
     })
     
 
