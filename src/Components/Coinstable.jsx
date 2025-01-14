@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { CoinList } from '../config/api';
 import { CryptoState } from '../CryptoContext';
 import axios from 'axios';
-import { Container, createTheme, LinearProgress, Table, TableCell, TableContainer, TableRow, TableHead, TextField, ThemeProvider, Typography, TableBody, makeStyles } from '@mui/material';
+import { Container, createTheme, LinearProgress, Table, TableCell, TableContainer, TableRow, TableHead, TextField, ThemeProvider, Typography, TableBody, makeStyles, Pagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {numberWithCommas} from './Banner/Carousel'
 
@@ -11,6 +11,7 @@ const Coinstable = () => {
     const [coins, setCoins] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
+    const [page, setPage] = useState(1);
 
     const {currency, symbol} = CryptoState();
 
@@ -80,7 +81,9 @@ const Coinstable = () => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                        {handleSearch().map((row)=>{
+                                    {handleSearch()
+                                        .slice((page-1)*10, (page-1)*10 + 10)
+                                        .map((row)=>{
                                             const profit = row.price_change_percentage_24 > 0;
                                             return(
                                                 <TableRow
@@ -143,12 +146,31 @@ const Coinstable = () => {
                                                     </TableCell>
                                                 </TableRow>
                                             )
-                                        })}
+                                    })}
                                 </TableBody>
                             </Table>
                         )
                     }
                 </TableContainer>
+                <Pagination
+                    style={{
+                        padding:20,
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                    }}
+                    count={(handleSearch()?.length/10).toFixed(0)}
+                    sx={{
+                        "& .MuiPaginationItem-root": {
+                            color: "gold",
+                        }
+                    }}
+                    onChange={(_,value)=>{
+                        setPage(value);
+                        window.scroll(0,450)
+                    }}
+                />
+
             </Container>
         </ThemeProvider>
     )
