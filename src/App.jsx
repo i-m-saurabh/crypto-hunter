@@ -4,7 +4,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from './Components/Header'
 import Homepage from './Pages/Homepage'
 import Coinpage from './Pages/Coinpage'
-import { makeStyles, styled } from '@mui/material'
+import { createTheme, styled, ThemeProvider} from '@mui/material'
+
+const theme = createTheme();
 
 function App() {
 
@@ -18,10 +20,12 @@ function App() {
     <BrowserRouter>
       <AppContainer>
         <Header />
-        <Routes>
-          <Route path='/' element={<Homepage />} />
-          <Route path='/coins/:id' element={<Coinpage />} />
-        </Routes>
+        <ThemeProvider theme={theme}>
+          <Routes>
+            <Route path='/' element={<Homepage />} />
+              <Route path='/coins/:id' element={<Coinpage />} />
+          </Routes>
+        </ThemeProvider>
       </AppContainer>
     </ BrowserRouter>
   )
