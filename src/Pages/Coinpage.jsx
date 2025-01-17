@@ -67,10 +67,6 @@ const Coinpage = () => {
         
     }));
 
-    const MarketDataHead = styled(Typography)(({ theme }) => ({
-        
-    }));
-
     const fetchCoin = async()=>{
         const {data} = await axios.get(SingleCoin(id));
         setCoin(data);
@@ -97,12 +93,12 @@ const Coinpage = () => {
                 </Heading>
                 <Desc variant='subtitle1'>
                     {coin?.description?.en ? parse(coin.description.en.split(".")[0]) : "No description available"}.
-                </Desc>
+                </Desc> 
                 <MarketData>
                     <span style={{display: "flex"}}>
-                        <MarketDataHead variant='h5'>
+                        <Heading variant='h5'>
                             Rank:
-                        </MarketDataHead>
+                        </Heading>
                         &nbsp; &nbsp;
                         <Typography
                             variant='h5'
@@ -114,9 +110,9 @@ const Coinpage = () => {
                         </Typography>
                     </span>
                     <span style={{display: "flex"}}>
-                        <MarketDataHead variant='h5'>
+                        <Heading variant='h5'>
                             Current Price:
-                        </MarketDataHead>
+                        </Heading>
                         &nbsp; &nbsp;
                         <Typography
                             variant='h5'
@@ -129,9 +125,9 @@ const Coinpage = () => {
                         </Typography>
                     </span>
                     <span style={{display: "flex"}}>
-                        <MarketDataHead variant='h5'>
+                        <Heading variant='h5'>
                             Market Cap:
-                        </MarketDataHead>
+                        </Heading>
                         &nbsp; &nbsp;
                         <Typography
                             variant='h5'
