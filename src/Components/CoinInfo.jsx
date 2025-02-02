@@ -103,6 +103,7 @@ const CoinInfo = ({coin}) => {
                                     width: "100%",
                                 }}
                             >
+                                {/* Buttons */}
                                 {chartDays.map(day => (
                                     <SelectButton
                                         key={day.value} 
@@ -116,7 +117,6 @@ const CoinInfo = ({coin}) => {
                         </>
                     )
                 }                
-                {/* Buttons */}
             </MainContainer>
         </ThemeProvider>
     )

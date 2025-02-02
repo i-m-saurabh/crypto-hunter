@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Header from './Components/Header'
@@ -23,7 +22,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <Routes>
             <Route path='/' element={<Homepage />} />
-              <Route path='/coins/:id' element={<Coinpage />} />
+            <Route path='/coins/:id' element={<Coinpage />} />
           </Routes>
         </ThemeProvider>
       </AppContainer>
