@@ -2,11 +2,13 @@ import { AppBar, Container, createTheme, MenuItem, Select, styled, ThemeProvider
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import { CryptoState } from '../CryptoContext';
+import AuthModal from './Authentication/AuthModal';
+import UserSidebar from './Authentication/UserSidebar';
 
 const Header = () => {
 
     const navigate = useNavigate();
-    const {currency, setCurrency} = CryptoState();    
+    const {currency, setCurrency, user} = CryptoState();    
 
     const CryptoHunterContainer = styled(Typography, {
         shouldForwardProp: (prop) => true,
@@ -52,6 +54,7 @@ const Header = () => {
                             <MenuItem value={"USD"}>USD</MenuItem>
                             <MenuItem value={"INR"}>INR</MenuItem>
                         </Select>
+                        {user ? <UserSidebar /> : <AuthModal /> }
                     </Toolbar>
                 </Container>
             </AppBar>

@@ -4,6 +4,7 @@ import Header from './Components/Header'
 import Homepage from './Pages/Homepage'
 import Coinpage from './Pages/Coinpage'
 import { createTheme, styled, ThemeProvider} from '@mui/material'
+import Alert from './Components/Alert'
 
 const theme = createTheme();
 
@@ -26,6 +27,7 @@ function App() {
           </Routes>
         </ThemeProvider>
       </AppContainer>
+      <Alert />
     </ BrowserRouter>
   )
 }

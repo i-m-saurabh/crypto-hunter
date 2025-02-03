@@ -4,14 +4,13 @@ import axios from 'axios';
 import { TrendingCoins } from '../../config/api';
 import { CryptoState } from '../../CryptoContext';
 import AliceCarousel from 'react-alice-carousel';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export function numberWithCommas(x){
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 const Carousel = () => {
-    const navigate = useNavigate();
     const [trending, setTrending] = useState([]);
 
     const {currency, symbol} = CryptoState();
