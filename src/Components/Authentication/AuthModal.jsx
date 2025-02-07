@@ -3,21 +3,13 @@ import Backdrop from '@mui/material/Backdrop';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import { AppBar, styled, Tab, Tabs } from '@mui/material';
+import { AppBar, Box, styled, Tab, Tabs } from '@mui/material';
 import Login from './Login';
 import Signup from './Signup';
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+import GoogleButton from 'react-google-button';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { CryptoState } from '../../CryptoContext';
+import { auth } from '../../firebase';
 
 export default function AuthModal() {
     const [open, setOpen] = useState(false);
@@ -26,6 +18,8 @@ export default function AuthModal() {
     
     const [value, setValue] = useState(0);
 
+    const {setAlert} = CryptoState();
+
     const Paper = styled('div', {
         shouldForwardProp: (prop) => true,
         })(({ theme }) => ({
@@ -33,6 +27,9 @@ export default function AuthModal() {
         width: 400,
         color: "white",
         borderRadius: 10,
+        zIndex: 1300, 
+        position: "relative",
+        pointerEvents: "auto",
     }));
 
     const ModalContainer = styled(Modal, {
@@ -43,8 +40,42 @@ export default function AuthModal() {
         justifyContent: "center",
     }));
 
+    const GoogleBox = styled(Box, {
+        shouldForwardProp: (prop) => true,
+        })(({ theme }) => ({
+            padding: 24,
+            paddingTop: 0,
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            gap: 20,
+            fontSize: 20,
+    }));
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    };
+
+    const googleProvider = new GoogleAuthProvider();
+
+    const signInWithGoogle = () => {
+        signInWithPopup(auth, googleProvider)
+            .then(res => {
+                setAlert({
+                    open: true, 
+                    message: `Sign Up Successful. Welcome ${res.user.email}`,
+                    type: "success"
+                });
+                handleClose();
+            })
+            .catch((error) => {
+                setAlert({
+                    open: true, 
+                    message: error.message,
+                    type: "error"
+                });
+                return;          
+            })
     };
 
     return (
@@ -87,8 +118,17 @@ export default function AuthModal() {
                                 <Tab label="Sign Up"  />
                             </Tabs>
                         </AppBar>
+                        
                         {value === 0 && <Login handleClose={handleClose} />}
                         {value === 1 && <Signup handleClose={handleClose} />}
+                        
+                        <GoogleBox>
+                            <span>OR</span>
+                            <GoogleButton 
+                                style={{ width: "100%", outline: "none" }}
+                                onClick={signInWithGoogle}
+                            />
+                        </GoogleBox>
                     </Paper>
                 </Fade>
             </ModalContainer>
