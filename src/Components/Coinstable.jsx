@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CoinList } from '../config/api';
 import { CryptoState } from '../CryptoContext';
-import axios from 'axios';
 import { Container, createTheme, LinearProgress, Table, TableCell, TableContainer, TableRow, TableHead, TextField, ThemeProvider, Typography, TableBody, makeStyles, Pagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {numberWithCommas} from './Banner/Carousel'

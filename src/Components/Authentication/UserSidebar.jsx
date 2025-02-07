@@ -13,7 +13,7 @@ export default function UserSiderbar() {
     const Cont = styled('div', {
         shouldForwardProp: (prop) => true,
         })(({ theme }) => ({
-            width: 350,
+            width: 300,
             padding: 25,
             height: "100%",
             display: "flex",
@@ -65,6 +65,7 @@ export default function UserSiderbar() {
             alignItems: "center",
             gap: 12,
             overflowY: "scroll",
+            scrollbarWidth: "none",
     }));
     
     const CoinDiv = styled('div', {
