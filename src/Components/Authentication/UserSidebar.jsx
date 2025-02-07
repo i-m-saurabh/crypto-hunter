@@ -2,8 +2,12 @@ import React, { Fragment, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import {CryptoState} from '../../CryptoContext'
 import { Avatar, Button, styled } from '@mui/material';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { signOut } from 'firebase/auth';
+import {numberWithCommas} from '../Banner/Carousel'
+import { AiFillDelete } from 'react-icons/ai';
+import { doc, setDoc } from 'firebase/firestore';
+
 
 export default function UserSiderbar() {
     const Cont = styled('div', {
@@ -61,13 +65,27 @@ export default function UserSiderbar() {
             alignItems: "center",
             gap: 12,
             overflowY: "scroll",
-    }));    
+    }));
+    
+    const CoinDiv = styled('div', {
+        shouldForwardProp: (prop) => true,
+        })(({ theme }) => ({
+            padding: 10,
+            borderRadius: 5,
+            color: "black",
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            backgroundColor: "#EEBC1D",
+            boxShadow: "0 0 3px black",
+    }));
 
     const [state, setState] = useState({
         right: false,
     });
 
-    const {user, setAlert} = CryptoState();
+    const {user, setAlert, coins, watchlist, symbol} = CryptoState();
     const anchor = 'right';
 
     const toggleDrawer = (anchor, open) => (event) => {
@@ -85,6 +103,27 @@ export default function UserSiderbar() {
             message: "Logout Successful !",
         });
         toggleDrawer()
+    }
+
+    const removeFromWatchlist = async (coin) =>{
+        const coinRef = doc(db, "watchlist", user.uid);
+        try {
+            await setDoc(coinRef,
+                {coins: watchlist.filter((watch) => watch !== coin?.id)},
+                {merge: "true"}
+            );
+            setAlert({
+                open: true,
+                message: `${coin.name} Removed from the Watchlist !`,
+                type: "success",
+            });
+        } catch (error) {
+            setAlert({
+                open: true,
+                message: error.message,
+                type: "error",
+            });
+        }
     }
 
     return (
@@ -126,7 +165,23 @@ export default function UserSiderbar() {
                             <span style={{fontSize: 15, textShadow: "0 0 5px black"}}>
                                 Watchlist
                             </span>
-
+                            {coins.map(coin => {
+                                if(watchlist.includes(coin.id))
+                                    return(
+                                        <CoinDiv>
+                                            <span>{coin.name}</span>
+                                            <span style={{display: "flex", gap: 8}}>
+                                                {symbol}
+                                                {numberWithCommas(coin.current_price.toFixed(2))}
+                                                <AiFillDelete 
+                                                    style={{cursor: "pointer"}}
+                                                    fontSize="16"
+                                                    onClick={() => removeFromWatchlist(coin)}
+                                                />
+                                            </span>
+                                        </CoinDiv>
+                                    )
+                            })}
                         </Watchlist>
                     </Profile>
                     <LogoutBtn
